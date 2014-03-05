@@ -13,6 +13,9 @@ group :production do
 	gem 'pg'
 end
 
+# Production deployement
+gem 'heroku'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
