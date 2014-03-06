@@ -1,11 +1,11 @@
 module ApplicationHelper
   # Retourner un titre basé sur la page.
-  def titre
-    base_titre = "Simple App du Tutoriel Ruby on Rails"
-    if @titre.nil?
-      base_titre
+  def title
+    base_title = "Simple App du Tutoriel Ruby on Rails"
+    if @title.nil?
+      base_title
     else
-      "#{base_titre} | #{@titre}"
+      "#{base_title} | #{@title}"
     end
   end
 end
