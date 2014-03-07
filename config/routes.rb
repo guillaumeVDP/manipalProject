@@ -1,5 +1,5 @@
 ManipalProject::Application.routes.draw do
-  get "users/new"
+  resources :users
 
       root          :to => 'pages#home'
   match '/home',    :to => 'pages#home', via: [:get, :post]

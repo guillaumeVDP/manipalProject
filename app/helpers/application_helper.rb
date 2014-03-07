@@ -8,4 +8,9 @@ module ApplicationHelper
       "#{base_title} | #{@title}"
     end
   end
+
+  # Get back a logo which redirects to the home page
+  def logo
+  	logo = image_tag("myLogo.png", :alt => "Application exemple", :class => "round")
+  end
 end
