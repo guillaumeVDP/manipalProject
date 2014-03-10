@@ -1,5 +1,23 @@
-<h1>Sign Up</h1>
-<p>
-  C'est ma page d'inscription à la con.
-</p>
-<%= link_to "Retour", home_path, :class => "round" %>
+<h1>Inscription</h1>
+<%= form_for(@user) do |f| %>
+<%= render 'shared/error_messages' %>
+  <div class="field">
+    <%= f.label :nom %><br />
+    <%= f.text_field :nom %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation, "Confirmation" %><br />
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Inscription" %>
+  </div>
+<% end %>
