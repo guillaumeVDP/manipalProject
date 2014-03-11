@@ -63,11 +63,16 @@ describe "LayoutLinks" do
       response.should have_selector("a", :href => signout_path,
                                          :content => "Deconnexion")
     end
-
-    it "devrait avoir un lien vers le profil" do
-      visit root_path
-      response.should have_selector("a", :href => user_path(@user),
-                                         :content => "Profil")
-    end
   end
 end
+
+#    it "devrait avoir un lien vers le profil" do
+ #     visit root_path
+  #    if current_user != nil
+   #     response.should have_selector("a", :href => user_path(@user) + "/edit",
+    #                                     :content => "Profil")
+    #  end
+    #end
+
+#  end
+#end

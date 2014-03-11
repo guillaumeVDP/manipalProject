@@ -14,12 +14,13 @@
 require 'digest'
 class User < ActiveRecord::Base
 	attr_accessor :password
+  #attr_accessible :confirmation
 	def create
 		User.create(user_params)
 	end
 	private
 	def user_params
-		params.require(:user).permit(:nom, :email, :password, :password_confirmation)
+		params.require(:user).permit(:nom, :email, :password, :confirmation)
 	end
 
 	email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -33,10 +34,10 @@ class User < ActiveRecord::Base
        			  :confirmation => true,
        			  :length       => { :within => 6..40 }
 
-    before_save :encrypt_password
+  before_save :encrypt_password
 
-    public
-    # Retour true (vrai) si le mot de passe correspond.
+  public
+  # Retour true (vrai) si le mot de passe correspond.
 	def has_password?(password_soumis)
 	  encrypted_password == encrypt(password_soumis)
 	end

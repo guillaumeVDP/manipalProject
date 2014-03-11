@@ -11,4 +11,11 @@
       <strong>URL</strong>  <%= link_to user_path(@user), @user %>
     </td>
   </tr>
+  <% if current_user != nil && @user.id == current_user.id %>
+  <tr>
+    <td>
+      <%= link_to "Edit", edit_user_path(current_user) %>
+    </td>
+  </tr>
+  <% end %>
 </table>

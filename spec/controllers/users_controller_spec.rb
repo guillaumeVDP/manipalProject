@@ -3,6 +3,58 @@ require 'spec_helper'
 describe UsersController do
   render_views
 
+  describe "PUT 'update'" do
+
+    before(:each) do
+      @user = Factory(:user)
+      test_sign_in(@user)
+    end
+
+    describe "Echec" do
+
+      before(:each) do
+        @attr = { :email => "", :nom => "", :password => "",
+                  :password_confirmation => "" }
+      end
+
+      it "devrait retourner la page d'edition" do
+        put :update, :id => @user, :user => @attr
+        response.should render_template('edit')
+      end
+
+      it "devrait avoir le bon titre" do
+        put :update, :id => @user, :user => @attr
+        response.should have_selector("title", :content => "Edition profil")
+      end
+    end
+
+    describe "succes" do
+
+      before(:each) do
+        @attr = { :nom => "New Name", :email => "user@example.org",
+                  :password => "barbaz", :password_confirmation => "barbaz" }
+      end
+
+      it "devrait modifier les caracteristiques de l'utilisateur" do
+        put :update, :id => @user, :user => @attr
+        @user.reload
+        @user.nom.should  == @attr[:nom]
+        @user.email.should == @attr[:email]
+      end
+
+      it "devrait rediriger vers la page d'affichage de l'utilisateur" do
+        put :update, :id => @user, :user => @attr
+        response.should redirect_to(user_path(@user))
+      end
+
+      it "devrait afficher un message flash" do
+        put :update, :id => @user, :user => @attr
+        flash[:success].should =~ /actualise/
+      end
+    end
+  end
+
+
   describe "POST 'create'" do
 
     describe "echec" do
@@ -102,6 +154,69 @@ describe UsersController do
     it "devrait avoir le titre adequat" do
       get 'new'
       response.should have_selector("title", :content => "Inscription")
+    end
+  end
+
+  describe "GET 'edit'" do
+
+    before(:each) do
+      @user = Factory(:user)
+      test_sign_in(@user)
+    end
+
+    it "devrait reussir" do
+      get :edit, :id => @user
+      response.should be_success
+    end
+
+    it "devrait avoir le bon titre" do
+      get :edit, :id => @user
+      response.should have_selector("title", :content => "Edition profil")
+    end
+
+    it "devrait avoir un lien pour changer l'image Gravatar" do
+      get :edit, :id => @user
+      gravatar_url = "http://gravatar.com/emails"
+      response.should have_selector("a", :href => gravatar_url,
+                                         :content => "changer")
+    end
+  end
+
+  describe "authentification des pages edit/update" do
+
+    before(:each) do
+      @user = Factory(:user)
+    end
+
+    describe "pour un utilisateur identifie" do
+
+      before(:each) do
+        wrong_user = Factory(:user, :email => "user@example.net")
+        test_sign_in(wrong_user)
+      end
+
+      it "devrait correspondre a l'utilisateur a editer" do
+        get :edit, :id => @user
+        response.should redirect_to(root_path)
+      end
+
+      it "devrait correspondre a l'utilisateur a actualiser" do
+        put :update, :id => @user, :user => {}
+        response.should redirect_to(root_path)
+      end
+    end
+
+    describe "pour un utilisateur non identifie" do
+
+      it "devrait refuser l'accces a l'action 'edit'" do
+        get :edit, :id => @user
+        response.should redirect_to(signin_path)
+      end
+
+      it "devrait refuser l'acces a l'action 'update'" do
+        put :update, :id => @user, :user => {}
+        response.should redirect_to(signin_path)
+      end
     end
   end
 end
