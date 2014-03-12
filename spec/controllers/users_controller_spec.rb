@@ -3,6 +3,59 @@ require 'spec_helper'
 describe UsersController do
   render_views
 
+
+  describe "GET 'index'" do
+
+    describe "pour utilisateur non identifies" do
+      it "devrait refuser l'acces" do
+        get :index
+        response.should redirect_to(signin_path)
+        flash[:notice].should =~ /identifier/i
+      end
+    end
+
+    describe "pour un utilisateur identifie" do
+
+      before(:each) do
+        @user = test_sign_in(Factory(:user))
+        second = Factory(:user, :email => "another@example.com")
+        third  = Factory(:user, :email => "another@example.net")
+        @users = [@user, second, third]
+        30.times do
+          @users << Factory(:user, :email => Factory.next(:email))
+        end
+      end
+
+      it "devrait reussir" do
+        get :index
+        response.should be_success
+      end
+
+      it "devrait avoir le bon titre" do
+        get :index
+        response.should have_selector("title", :content => "Liste des utilisateurs")
+      end
+
+      it "devrait avoir un element pour chaque utilisateur" do
+        get :index
+        @users[0..2].each do |user|
+          response.should have_selector("li", :content => user.nom)
+        end
+      end
+
+      it "devrait paginer les utilisateurs" do
+        get :index
+        response.should have_selector("div.pagination")
+        response.should have_selector("span.disabled", :content => "Previous")
+        response.should have_selector("a", :href => "/users?page=2",
+                                           :content => "2")
+        response.should have_selector("a", :href => "/users?page=2",
+                                           :content => "Next")
+      end
+    end
+  end
+
+
   describe "PUT 'update'" do
 
     before(:each) do
@@ -216,6 +269,48 @@ describe UsersController do
       it "devrait refuser l'acces a l'action 'update'" do
         put :update, :id => @user, :user => {}
         response.should redirect_to(signin_path)
+      end
+    end
+  end
+
+
+  describe "DELETE 'destroy'" do
+
+    before(:each) do
+      @user = Factory(:user)
+    end
+
+    describe "en tant qu'utilisateur non identifie" do
+      it "devrait refuser l'acces" do
+        delete :destroy, :id => @user
+        response.should redirect_to(signin_path)
+      end
+    end
+
+    describe "en tant qu'utilisateur non administrateur" do
+      it "devrait proteger la page" do
+        test_sign_in(@user)
+        delete :destroy, :id => @user
+        response.should redirect_to(root_path)
+      end
+    end
+
+    describe "en tant qu'administrateur" do
+
+      before(:each) do
+        admin = Factory(:user, :email => "admin@example.com", :admin => true)
+        test_sign_in(admin)
+      end
+
+      it "devrait detruire l'utilisateur" do
+        lambda do
+          delete :destroy, :id => @user
+        end.should change(User, :count).by(-1)
+      end
+
+      it "devrait rediriger vers la page des utilisateurs" do
+        delete :destroy, :id => @user
+        response.should redirect_to(users_path)
       end
     end
   end
