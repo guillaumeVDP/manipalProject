@@ -1,0 +1,10 @@
+<%= render 'pages/viewchange' %>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @music %> |
+<%= link_to 'Back', musics_path %>
+<% if current_user.admin? %>
+  | <%= link_to "Delete", @music, :method => :delete, :confirm => "Are you sure ?",
+                                :nom => "Delete #{@music.nom}" %>
+  <% end %>

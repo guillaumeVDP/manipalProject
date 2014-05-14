@@ -11,7 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140312101752) do
+ActiveRecord::Schema.define(version: 20140501203423) do
+
+  create_table "microposts", force: true do |t|
+    t.string   "content"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "musics", force: true do |t|
+    t.string   "nom"
+    t.string   "compositeur"
+    t.string   "path"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "altimg"
+  end
+
+  create_table "projects", force: true do |t|
+    t.string   "title"
+    t.string   "length"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "picture"
+    t.string   "picture_detail"
+  end
 
   create_table "users", force: true do |t|
     t.string   "nom"

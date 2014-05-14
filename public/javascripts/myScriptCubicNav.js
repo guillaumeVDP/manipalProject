@@ -1,19 +1,24 @@
-var zoomSpeed = 4;
-var rotationSpeed = 80;
-
 var gl;
 
 function initGL(canvas) {
   try {
-    gl = canvas.getContext("experimental-webgl");
-    gl.canvas.width  = window.innerWidth;
-    gl.canvas.height = window.innerHeight;
+    gl = canvas.getContext("experimental-webgl") || canvas.getContext("webgl");
+    if (window.innerHeight > 850)
+      gl.canvas.height = window.innerHeight;
+    else
+      gl.canvas.height = 850;
+    gl.canvas.width  = gl.canvas.height;
     gl.viewportWidth = canvas.width;
     gl.viewportHeight = canvas.height;
-  } catch (e) {
-  }
+  } catch (e) {}
   if (!gl) {
-      alert("Could not initialise WebGL, sorry...");
+    alert("Could not initialise WebGL, sorry. Your browser may not support it.");
+/*  glSupported = false;
+    $("#canvas-cubic-nav").css({
+      width: 850,
+      height: 850,
+      backgroundImage: '/images/myBackground.png'
+    });*/
   }
 }
 
@@ -96,10 +101,10 @@ function initTexture() {
     handleLoadedTexture(myTexture);
     textureImagesLoaded++;
     if(textureImagesLoaded >= numTextures) {
-      tick();
+      drawScene();
     }
   };
-  myTexture.image.src = "images/myBackground.png";
+  myTexture.image.src = "/images/myBackground.png";
 }
 
 var mvMatrix = mat4.create();
@@ -220,27 +225,21 @@ function initBuffers() {
   cubeVertexIndexBuffer.numItems = 36;
 }
 
-var rCube = 90;
-var rCubeX = 0;
-var rCubeY = 0;
-var cam = -1.5;
-var x = 0;
-var y = 0;
-
 function drawScene() {
   gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
   mat4.identity(mvMatrix);
-  if (cam <= -5.0)
-    cam = -5.0;
+  if (cam > -3.42)
+    cam = -3.42;
   mat4.translate(mvMatrix, [0.0, 0.0, cam]);
-  if (rCubeX > 90)
+/*  if (rCubeX > 90)
     rCubeX = 90;
   if (rCubeY > 90)
-    rCubeY = 90;
-  mat4.rotate(mvMatrix, degToRad(rCubeX), [1, 0, 0]);
-  mat4.rotate(mvMatrix, degToRad(rCubeY), [0, 1, 0]);
+    rCubeY = 90;*/
+  mat4.rotate(mvMatrix, degToRad(rCube), [x, 0, 0]);
+  mat4.rotate(mvMatrix, degToRad(rCube), [0, y, 0]);
+  mat4.rotate(mvMatrix, degToRad(rCube), [0, 0, z]);
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
   gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
@@ -253,37 +252,41 @@ function drawScene() {
   gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 }
 
+var rCube = 0;
+var rCubeX = 0;
+var rCubeY = 0;
+var rCubeZ = 0;
+var cam = -3.42;
+var x = 0;
+var y = 0;
+var z = 0;
+
 var lastTime = 0;
 var animated = false;
+var zoomSpeed = 12;
+var rotationSpeed = 100;
+var zoomEnd = false;
+var flag = true;
+
 function animate() {
   var timeNow = new Date().getTime();
   if (lastTime != 0) {
     var elapsed = timeNow - lastTime;
-    // Si on est dézoomé
-    if (rCube < 90 && cam <= -5.0) {
-      if (x == 1) {
-        rCubeX += (rotationSpeed * elapsed) / 1000.0;
+    if (animated) {
+      if (rCube < 90) {
         rCube += (rotationSpeed * elapsed) / 1000.0;
+      } else
+        rCube = 90;
+      if (zoomEnd == false && cam <= -3.42 && cam >= -10.0) {
+        cam -= (zoomSpeed * elapsed) / 1000.0; // We Dezoom
+      } else if (cam < -3.42) {
+        zoomEnd = true;
+        cam += (zoomSpeed * elapsed) / 1000.0; // We Dezoom
+      } else {
+        cam = -3.42;
+        animated = false;
+        endAnimation();
       }
-      if (x == -1) {
-        rCubeX -= (rotationSpeed * elapsed) / 1000.0;
-        rCube += (rotationSpeed * elapsed) / 1000.0;
-       }
-      if (y == 1) {
-        rCubeY += (rotationSpeed * elapsed) / 1000.0;
-        rCube += (rotationSpeed * elapsed) / 1000.0;
-      }
-      if (y == -1) {
-        rCubeY -= (rotationSpeed * elapsed) / 1000.0;
-        rCube += (rotationSpeed * elapsed) / 1000.0;
-      }
-    } else if (rCube < 90) {
-      cam -= (zoomSpeed * elapsed) / 1000.0; // Zoom
-    } else if (cam <= -1.5) {
-      cam += (zoomSpeed * elapsed) / 1000.0; // Dezoom
-    } else if (animated == true) {
-      animated = false;
-      endAnimation();
     }
   }
   lastTime = timeNow;
@@ -291,7 +294,6 @@ function animate() {
 
 function tick() {
   if (animated == true) {
-    
     drawScene();
     animate();
     requestAnimFrame(tick);
@@ -301,63 +303,80 @@ function tick() {
 function webGLStart() {
   var canvas = document.getElementById("canvas-cubic-nav");
   initGL(canvas);
-  initShaders();
-  initBuffers();
-  initTexture();
-
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
-  gl.enable(gl.DEPTH_TEST);
-  /*tick();*/
+  if (gl) {
+    initShaders();
+    initBuffers();
+    initTexture();
+    gl.clearColor(0.0, 0.0, 0.0, 0.0);
+    gl.enable(gl.DEPTH_TEST);
+  }
 }
 
-var direction = "";
-function changeDirection(dir) {
-  direction = dir;
+function reinitCube() {
   rCube = 0;
   rCubeX = 0;
   rCubeY = 0;
+  rCubeZ = 0;
   x = 0;
   y = 0;
-  animated = true;
+  z = 0;
   lastTime = 0;
-  switch (direction) {
-    case "up":
+  flag = true;
+  zoomEnd = false;
+}
+
+var direction = "";
+var currentPage = ".accueil"
+function changeDirection(dir) {
+  direction = dir;
+  animated = true;
+  reinitCube();
+  x = 1;
+  y = 1;
+  //randDir();
+  /*$("body").animate({ scrollTop: "0px" });*/
+  if (gl)
+    setTimeout("tick()", 600);
+}
+
+function randDir() {
+  var rand = Math.floor(Math.random() * 3) + 1;
+  switch (rand) {
+    case 1:
       x = 1;
-      if (currentPage == '.accueil')
-        direction = '.music';
-      else
-        direction = '.accueil';
       break;
-    case "down":
+    case 2:
       x = -1;
-      if (currentPage == '.accueil')
-        direction = '.admin';
-      else
-        direction = '.accueil';
       break;
-    case "left":
-      y = 1;
-      if (currentPage == '.accueil')
-        direction = '.skills';
-      else
-        direction = '.accueil';
-      break;
-    case "right":
-      y = -1;
-      if (currentPage == '.accueil')
-        direction = '.projects';
-      else
-        direction = '.accueil';
+    case 3:
+      x = 0;
       break;
     default:
-      direction = '.accueil';
       x = 1;
+      break;
   }
-  $("body").animate({ scrollTop: "0px" });
-  UIstartAnimation(direction);
-  //tick();
+  rand = Math.floor(Math.random() * 3) + 1;
+  switch (rand) {
+    case 1:
+      y = 1;
+      break;
+    case 2:
+      y = -1;
+      break;
+    case 3:
+      y = 0;
+      break;
+    default:
+      y = 1;
+      break;
+  }
+  if (x == 0 && y == 0) {
+    x = 1;
+  }
 }
 
 function endAnimation() {
+  reinitCube();
+  drawScene();
   UIendAnimation(direction);
 }

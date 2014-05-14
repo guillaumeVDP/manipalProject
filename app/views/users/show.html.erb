@@ -1,3 +1,4 @@
+<%= render 'pages/viewchange' %>
 <table class="profile" summary="Information profil">
   <tr>
     <td class="main">
@@ -11,10 +12,10 @@
       <strong>URL</strong>  <%= link_to user_path(@user), @user %>
     </td>
   </tr>
-  <% if current_user != nil && @user.id == current_user.id %>
+  <% if current_user != nil && @user.id == current_user.id || current_user.admin? %>
   <tr>
     <td>
-      <%= link_to "Edit", edit_user_path(current_user) %>
+      <%= link_to "Edit", edit_user_path(@user) %>
     </td>
   </tr>
   <% end %>

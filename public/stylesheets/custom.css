@@ -1,19 +1,36 @@
+.fadder {
+  opacity: 0.0;
+  transition: opacity .5s ease-in;
+  -moz-transition: opacity .5s ease-in;
+  -webkit-transition: opacity .5s ease-in;
+}
+
 .container {
-  width: 710px;
+  width: 800px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+html {
+  height: 100%;
 }
 
 body {
-  background: #cff;
+  background: #777;
+  margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 header {
+  display: inline-block;
+  width: 100%;
   padding-top: 20px;
 }
 
 header img {
-  padding: 1em;
   background: #fff;
-  width: 200px;
+  width: 20%;
 }
 
 section {
@@ -23,24 +40,114 @@ section {
   background: #fff;
 }
 
+/* Section Title */
 section h1 {
+  font-family: Georgia;
   font-size: 200%;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-shadow: 1px -1px #cccccc;
+}
+
+li {
+  list-style-type: none;
+}
+
+.separator {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.image-project-cover {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 80px;
+}
+
+/* Project Accordion */
+
+#accordion-projects {
+}
+
+    /* header */
+.ui-accordion .ui-accordion-header {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 100px;
+}
+
+.project-detailimg div {
+  text-align: center;
+}
+
+.project-detailimg img {
+  width: 100%;
+}
+
+    /* content */
+.ui-accordion .ui-accordion-content {
+  overflow:auto;
+  margin-left: auto;
+  margin-right: auto;
+  height: 600px;
+  border-top: 1px solid #e0cfc2;
 }
 
 /* Liens */
 
 a {
-  color: #09c;
+  color: #7f5b33;
   text-decoration: none;
 }
 
 a:hover {
-  color: #069;
+  color: #7f5b33;
   text-decoration: underline;
 }
 
 a:visited {
-  color: #069;
+  color: #7f5b33;
+}
+
+a:link {
+  color: #7f5b33;
+}
+
+/* Musics */
+
+.music_title {
+  font-family: Impact;
+  color: black;
+}
+
+.music_p {
+  margin-top: 8px;
+  margin-bottom: 5px;
+}
+
+.music {
+  text-align: center;
+  margin-bottom: 0px;
+  margin-top: 15px;
+  margin-left: 50px;
+  margin-right: 50px;
+  background-color: #f4f0ec;
+  border: 1px solid #e0cfc2;
+}
+
+/* Skills */
+
+.skillsgrid {
+  display: inline-block;
+}
+
+.skillsgridItem {
+
 }
 
 /* Navigation */
@@ -51,8 +158,19 @@ nav {
 
 nav {
   background-color: white;
-  padding: 0 0.7em;
+  padding: 1em;
   white-space: nowrap;
+}
+
+.header {
+  padding: 1em 0em 1em 0em;
+  width: 79%;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.footer {
+  padding: 0.5em;
 }
 
 nav ul {
@@ -61,34 +179,54 @@ nav ul {
 }
 
 nav ul li {
+  border: 1px solid black;
+  -moz-border-radius:    10px;
+  -webkit-border-radius: 10px;
+  border-radius:         10px;
   list-style-type: none;
   display: inline-block;
   padding: 0.2em 0;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #FFDAB2;
 }
 
 nav ul li a {
-  padding: 0 5px;
+  padding: 0 15px;
   font-weight: bold;
 }
 
 nav ul li a:visited {
-  color: #09c;
+  color: #7F5B33;
 }
 
 nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* Bouton inscription */
+/* Bouton inscription/sign in */
 
 a.signup_button {
   margin-left: auto;
   margin-right: auto;
-  display: block;
+  display: inline-block;
   text-align: center;
   width: 190px;
   color: #fff;
   background: #006400;
+  font-size: 150%;
+  font-weight: bold;
+  padding: 10px;
+}
+
+a.signin_button {
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  text-align: center;
+  width: 190px;
+  color: #fff;
+  background: #3064AA;
   font-size: 150%;
   font-weight: bold;
   padding: 20px;
@@ -107,7 +245,7 @@ a.signup_button {
 footer {
   text-align: center;
   margin-top: 10px;
-  width: 710px;
+  width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -193,4 +331,13 @@ ul.users {
 
 .users li {
   list-style: none;
+}
+
+/* My PDF CV Displayer */
+
+#myCVview {
+  width: 100%;
+  height: 1050px;
+  overflow:hidden;
+  margin-top: 20px;
 }

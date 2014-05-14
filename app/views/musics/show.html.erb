@@ -1,0 +1,21 @@
+<%= render 'pages/viewchange' %>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Nom:</strong>
+  <%= @music.nom %>
+</p>
+
+<p>
+  <strong>Compositor:</strong>
+  <%= @music.compositeur %>
+</p>
+
+<video width="320" height="240" controls>
+	<source src="/videos/<%= @music.path %>" type="video/mp4">
+</video>
+
+<% if current_user != nil && current_user.admin? %>
+<%= link_to 'Edit', edit_music_path(@music) %> |
+<% end %>
+<%= link_to 'Back', musics_path %>

@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
-  before_filter :correct_user, :only => [:edit, :update]
-  before_filter :admin_user,   :only => :destroy
+  before_filter :authenticate, :only => [:index, :edit, :show, :update, :destroy]
+  before_filter :correct_user, :only => [:edit, :show, :update]
+  before_filter :admin_user,   :only => [:index]
 
    def index
-    @title = "Liste des utilisateurs"
+    @title = "Users"
+    @subtitle = "List of all users"
     @users = User.all
   end
 
@@ -20,13 +21,15 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     @title = @user.nom
+    @subtitle = "Profile"
+    @user = User.find(params[:id])
   end
 
   def new
+    @title = "Signup"
+    @subtitle = "Sign Up"
   	@user = User.new
-    @title = "Inscription"
   end
 
   def create
@@ -36,19 +39,20 @@ class UsersController < ApplicationController
       flash[:success] = "Bienvenue dans l'Application Exemple!"
       redirect_to @user
     else
-      @title = "Inscription"
+      @title = "Signup"
       render 'new'
     end
   end
 
   def edit
+    @title = "Profil's Edition"
+    @subtitle = "Edition of the Profile"
     @user = User.find(params[:id])
-    @title = "Edition profil"
   end
 
   def destroy
     User.find(params[:id]).destroy
-    flash[:success] = "Utilisateur supprime."
+    flash[:success] = "User deleted successfully"
     redirect_to users_path
   end
 
@@ -63,7 +67,7 @@ class UsersController < ApplicationController
 
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_path) unless current_user?(@user)
+    redirect_to(root_path) unless (current_user?(@user) || current_user.admin?)
   end
 
   def admin_user

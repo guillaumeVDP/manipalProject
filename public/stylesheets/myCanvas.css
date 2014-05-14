@@ -1,5 +1,11 @@
 #canvas-cubic-nav {
-	position: absolute;
-	display: none;
-	z-index: 9;
+	/*display: none;*/
+	z-index: -1;
+}
+
+#canvasdiv {
+	width: 100%;
+	z-index: -1;
+	position: fixed;
+	text-align: center;
 }

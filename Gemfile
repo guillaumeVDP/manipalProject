@@ -4,16 +4,24 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.2'
 
 gem 'gravatar_image_tag', '1.0.0.pre2'
-# gem 'will_paginate', '3.0.pre4'
+
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+
+gem 'mail_form'
+gem 'simple_form'
+
+gem 'thin'
 
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 group :development, :test do
 	gem 'sqlite3'
 	gem 'faker', '0.3.1'
+  gem 'foreman'
 end
 group :production do
-	gem 'pg'
+	gem 'pg' #postgre SQL
 end
 
 group :development do

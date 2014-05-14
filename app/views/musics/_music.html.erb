@@ -1,0 +1,23 @@
+<div class="music round">
+	<div class="music_p">
+	  <div class="music_title"><%= music.nom + " - " + music.compositeur %></div>	
+	</div>
+	<hr>
+	<div class="music_p">
+		<% if hasVideo(music) %>
+		<video width="320" height="240" controls>
+		  <source src="/videos/<%= music.path %>" type="video/mp4">
+		  <object src="/videos/<%= music.path %>" width="320" height="240">
+		    <embed src=src="/videos/<%= music.path %>" width="320" height="240">
+		  </object> 
+		</video>
+		<% else %>
+		<div><img src="/musics/img/<%= music.altimg %>" width="300" /></div>
+		<div><audio controls>
+		  <source src="/musics/<%= music.path %>" type="audio/mpeg">
+		  <embed height="50" width="300" src="/musics/<%= music.path %>">
+		</audio></div>
+		<% end %>
+		<p><%= link_to "Read more...", music %></p>
+	</div>
+</div>

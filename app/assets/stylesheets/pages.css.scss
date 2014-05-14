@@ -1,3 +1,11 @@
 // Place all the styles related to the Pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+
+@mixin animate($name, $duration, $delay, $function: ease, $mode: both) {
+  animation: $name $duration $delay $function $mode;
+  -moz-animation: $name $duration $delay $function $mode;
+  -webkit-animation: $name $duration $delay $function $mode;
+}

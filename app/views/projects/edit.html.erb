@@ -1,0 +1,10 @@
+<%= render 'pages/viewchange' %>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @project %> |
+<%= link_to 'Back', projects_path %>
+<% if current_user.admin? %>
+  | <%= link_to "Delete", @project, :method => :delete, :confirm => "Are you sure ?",
+                                :title => "Delete #{@project.title}" %>
+  <% end %>

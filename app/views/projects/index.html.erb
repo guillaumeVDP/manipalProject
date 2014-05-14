@@ -1,0 +1,40 @@
+<%= render 'pages/viewchange' %>
+<%= image_tag "/images/separator2.png", :class => "separator" %>
+<script type="text/javascript">
+  jQuery(function() {
+    jQuery('#accordion-projects').accordion({
+      collapsible: true,
+      active: false,
+      beforeActivate: function(event, ui) {
+        if (ui.newHeader.offset() != null) {
+          $('html, body').animate({scrollTop: ui.newHeader.offset().top}, 500);
+        } else
+          $('html, body').animate({scrollTop: 0}, 500);
+      }
+    });
+  });
+</script>
+
+<div id="accordion-projects">
+  <% @projects.each do |project| %>
+    <div class="myAccordionHeader">      
+      <%= image_tag "/images/projects/" + project.picture, :class => "image-project-cover" %>
+    </div>
+    <div>
+      <h2><%= project.title %></h2>
+      <% if current_user != nil && current_user.admin? %>
+        <%= link_to "Edit", edit_project_path(project) %>
+      <% end %>
+      <div>Project duration: <%= project.length %>.</div>
+      <div><%= project.content %></div>
+       <div class="project-detailimg">
+        <%= image_tag "/images/projects/" + project.picture_detail, :class => "project-detailimg" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<br>
+<% if current_user != nil && current_user.admin? %>
+<%= link_to 'New Project', new_project_path %>
+<% end %>

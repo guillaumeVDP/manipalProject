@@ -5,20 +5,22 @@
     <%= csrf_meta_tag %>
     <%= render 'layouts/stylesheets' %>
     <%= render 'layouts/javascripts' %>
-    <%= javascript_include_tag "application" %>
   </head>
   <body onload="init();" onResize="onWindowResize();">
-    <canvas id="canvas-cubic-nav"></canvas>
-    <div class="container">
-      <%= render 'layouts/header' %>
-      <section class="round">
-        <% flash.each do |key, value| %>
-          <%= content_tag(:div, value, :class => "flash #{key}") %>
-        <% end %>
-        <%= yield %>
-      </section>
-      <%= render 'layouts/footer' %>
-      <%= debug(params) if Rails.env.development? %>
+    <div id="canvasdiv">
+      <%= render 'layouts/canvas' %>
+    </div>
+    <div id="mainContainer" class="container">
+      <div class="container">
+        <%= render 'layouts/header' %>
+        <section class="round">
+          <%= render 'layouts/flash' %>
+          <h1><%= subtitle %></h1>
+          <%= yield %>
+        </section>
+        <%= render 'layouts/footer' %>
+        <%= debug(params) if Rails.env.development? %>
+      </div>
     </div>
   </body>
 </html>

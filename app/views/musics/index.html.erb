@@ -1,0 +1,11 @@
+<%= render 'pages/viewchange' %>
+<%= image_tag "/images/separator2.png", :class => "separator" %>
+
+<div class="musics">
+  <%= render @musics %>
+</div>
+
+<br>
+<% if current_user != nil && current_user.admin? %>
+<%= link_to 'New Music', new_music_path %>
+<% end %>

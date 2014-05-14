@@ -1,0 +1,15 @@
+<% flash.each do |key, value| %>
+  <% if key.to_s == "error" %>
+    <div class="ui-state-error ui-corner-all" style="padding: 0 .9em;">
+      <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em; margin-top: .2em"></span>
+      <strong>Hey!</strong>
+      <%= content_tag('p', value) %>
+    </div>
+  <% else %>
+    <div class="ui-state-highlight ui-corner-all" style="padding: 0 .9em;">
+      <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em; margin-top: .2em"></span>
+      <strong>Hey!</strong>
+      <%= content_tag('p', value) %>
+    </div>
+  <% end %>
+<% end %>

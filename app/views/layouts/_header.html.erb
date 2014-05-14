@@ -1,19 +1,24 @@
 <header>
-  <%= link_to logo, root_path %>
-  <nav class="round">
+  <%= logo %>
+  <nav class="round header">
     <ul>
-      <li><%= link_to "Accueil", root_path %></li>
+      <li><%= link_to "Home", root_path, :onclick => "UIstartAnimation()" %></li>
       <% if signed_in? %>
-       <li><%= link_to "Utilisateurs", users_path %></li>
-      <li><%= link_to "Profil", current_user %></li>
-      <li><%= link_to "Réglages", edit_user_path(current_user) %></li>
+        <li><%= link_to "Profile", current_user, :onclick => "UIstartAnimation()" %></li>
       <% end %>
-      <li><%= link_to "Aide", help_path %></li>
+        <li><%= link_to "Projects", projects_path, :onclick => "UIstartAnimation()" %></li>
+        <li><%= link_to "Skills", skills_path, :onclick => "UIstartAnimation()" %></li>
+        <li><%= link_to "Lifestyle", lifestyle_path, :onclick => "UIstartAnimation()" %></li>
       <% if signed_in? %>
-      <li><%= link_to "Deconnexion", signout_path, :method => :delete %></li>
+        <li><%= link_to "Sign out", signout_path, :method => :delete, :onclick => "UIstartAnimation()" %></li>
       <% else %>
-      <li><%= link_to "S'identifier", signin_path %></li>
+        <li><%= link_to "Sign In", signin_path, :onclick => "UIstartAnimation()" %></li>
       <% end %>
     </ul>
+    <% if current_user != nil && current_user.admin? %>
+    <ul>
+      <!-- <li><%= link_to "Users", users_path, :onclick => "UIstartAnimation()" %></li> -->
+    </ul>
+    <% end %>
   </nav>
 </header>

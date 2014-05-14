@@ -1,0 +1,70 @@
+<%= render 'pages/viewchange' %>
+<%= image_tag "/images/separator3.png", :class => "separator" %>
+
+<script type="text/javascript">
+	jQuery(function() {
+	  jQuery('.section-grid').click(function() {
+	  	var $this = $(this);
+	  	if ($this.hasClass("show-desc")) {
+	     	$this.find('div.cover').css({top: "0"});
+	    	$this.find('div.desc').css({top: "100%"});
+	     	$this.find('[class*="entypo-"]').removeClass('spin-out').addClass('spin-in');
+	    	$this.find('.cover h5').addClass('scoot-in');
+	     	$this.removeClass("show-desc");
+	  	}
+	  	else {
+	     	$this.find('div.cover').css({top: "-100%"});
+	     	$this.find('div.desc').css({top: "0"});
+	     	$this.find('[class*="entypo-"]').removeClass('spin-in').addClass('spin-out');
+	     	$this.find('.cover h5').removeClass('scoot-in').addClass('scoot-out');
+	     	$this.addClass("show-desc");
+	  	}
+		});
+	});
+</script>
+
+
+<!-- OBJET => C/C++/C# -->
+<!-- WEB => HTML5, CSS3, Javascript, JQuery, SQL, RubyOnRails -->
+<!-- PROJECT ORGANISATION => Gantt, git, svn... -->
+<!-- MOBILE => Android, PhoneGap -->
+<ul class="grid cs-style-4 skillsgrid">
+  <li class="skillsgridItem">
+    <figure>
+      <div><img src="/images/skills/html5.png" alt="html5"></div>
+      <figcaption>
+        <h3>HTML 5</h3>
+        <span>5 year experience</span>
+      </figcaption>
+    </figure>
+  </li>
+  <li>
+    <figure>
+      <div><img src="/images/skills/css3.jpg" alt="css3"></div>
+      <figcaption>
+      </figcaption>
+    </figure>
+  </li>
+  <li>
+    <figure>
+      <div><img src="/images/skills/javascript.png" alt="css3"></div>
+      <figcaption>
+      </figcaption>
+    </figure>
+  </li>
+  <li>
+    <figure>
+      <div><img src="/images/skills/mysql.jpg" alt="css3"></div>
+      <figcaption>
+      </figcaption>
+    </figure>
+  </li>
+  <li>
+    <figure>
+      <div><img src="/images/skills/webgl.png" alt="css3"></div>
+      <figcaption>
+      </figcaption>
+    </figure>
+  </li>
+</ul>
+<script src="javascripts/toucheffects.js"></script>

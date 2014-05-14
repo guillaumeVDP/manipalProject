@@ -1,17 +1,31 @@
 class PagesController < ApplicationController
   def home
-  	@title = "Accueil"
+    @title = "Home"
+    @subtitle = "Welcome to my website"
   end
 
   def contact
-  	@title = "Contact"
+  	@title = "Contact me"
+    @subtitle = "Contact"
   end
 
   def about
-  	@title = "A Propos"
+  	@title = "About"
+    @subtitle = "About this website"
   end
 
-  def help
-  	@title = "Help"
+  def skills
+    @title = "Skills"
+    @subtitle = "My Skills"
+  end
+
+  def lifestyle
+    @title = "LifeStyle"
+    @subtitle = "My LifeStyle"
+  end
+
+  def cv
+    @title = "Curriculum Vitae"
+    @subtitle = "Curriculum Vitae"
   end
 end

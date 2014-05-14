@@ -21,3 +21,7 @@ doc/
 *.swp
 *~
 .DS_Store
+
+# Specific information
+.env
+Procfile

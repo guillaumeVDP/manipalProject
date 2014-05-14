@@ -1,0 +1,31 @@
+<%= render 'pages/viewchange' %>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @project.title %>
+</p>
+
+<p>
+  <strong>Length:</strong>
+  <%= @project.length %>
+</p>
+
+<p>
+  <strong>Picture path:</strong>
+  <%= @project.picture %>
+</p>
+
+<p>
+  <strong>Picture Detail path:</strong>
+  <%= @project.picture_detail %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @project.content %>
+</p>
+<% if current_user != nil && current_user.admin? %>
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<% end %>
+<%= link_to 'Back', projects_path %>

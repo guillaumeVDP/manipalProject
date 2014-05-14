@@ -9,12 +9,13 @@
 #  updated_at         :datetime
 #  encrypted_password :string(255)
 #  salt               :string(255)
-#
+#  admin              :boolean          default(FALSE)
+# -annotate-
 
 require 'digest'
 class User < ActiveRecord::Base
 	attr_accessor :password
-  #attr_accessible :confirmation
+  
 	def create
 		User.create(user_params)
 	end
