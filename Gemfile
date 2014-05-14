@@ -36,7 +36,7 @@ group :test do
 end
 
 # Production deployement
-gem 'heroku'
+# gem 'heroku'  ==>#deprecated
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
